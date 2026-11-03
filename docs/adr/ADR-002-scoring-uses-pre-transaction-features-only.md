@@ -15,4 +15,5 @@ Model v1 may only use features that are known before the transaction completes: 
 - Cost: lower scores than the leaky baseline, and fewer signals to work with.
 - Cost: `drains_account` and `amount_ratio` lean on a pattern in synthetic data (fraud empties the sender's account), so real-world performance is unproven.
 - Cost: v1 only scores TRANSFER and CASH_OUT. Other transaction types are meant to go to a rules engine, which has not been built yet, so that traffic is currently unscored.
+- Cost: the 0.997 PR-AUC is real but for an unrepresentative window. The test window (step > 600) has 43,550 rows with 3.7% fraud, versus 0.24% in training. We checked: normal volume per step collapses after step 600 while fraud per step stays flat, so the fraud rate rises. Do not quote these numbers as expected production accuracy (see `docs/weak-spots.md`).
 - Cost: every new feature needs a "was this known at decision time?" check, which is a review step we must keep doing.

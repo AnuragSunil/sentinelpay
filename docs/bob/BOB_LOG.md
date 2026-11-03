@@ -26,6 +26,17 @@ Rolling log of every change Bob makes. Newest entry at the TOP.
 
 ---
 
+## B-006 | 2026-11-03 | Verify test-window explanation, correct wording, add caveat to ADR
+- Prompt (1 line): Check whether txns drop after step 600 with flat fraud, fix the weak-spots wording to match, add the window caveat to the ADR body, do not move the tag.
+- Created: none
+- Modified: docs/weak-spots.md (replaced "Owner's explanation" with the checked finding); docs/adr/ADR-002-scoring-uses-pre-transaction-features-only.md (added window-caveat trade-off line); docs/bob/BOB_LOG.md (this entry)
+- Deleted: none
+- Dependencies added: none
+- Decisions/assumptions: Ran your snippet (read-only, via stdin, no file written) plus two extra means (steps <=600 vs >600). Result: txns/step 4544.8 -> 304.5, fraud/step 11.02 -> 11.19, so the explanation holds. Sampled steps 600/650/700 had txns == fraud (18/16/6) but step 100 did too (6/6), so I left that out of the weak-spots wording as it would imply a late-only pattern. Reworded to say only what was measured; cause of the taper in the simulator is stated as not investigated. Committed and pushed to origin main (as in B-005). Tag v0.2-model-v1 NOT moved; no new tag (next is v0.3-ml-service). B-005 mistakes: first insert broke the weak-spots table and left a stray blank line in the ADR; both fixed before that commit.
+- Not done / follow-ups: Did not check whether other steps before 600 also have all-fraud rows (only sampled steps); did not recheck rows with the other transaction types. Tasks 6 and 7 (scoring service, Docker Compose) not started.
+- How to verify: rerun your snippet from ml/ (`.\.venv\Scripts\python.exe`), `git show --stat HEAD`, `git tag -n` (v0.2-model-v1 still on 55c505b), open the weak-spots table in a Markdown preview (separator row must be line 2 of the table).
+
+
 ## B-005 | 2026-11-03 | Ignore __pycache__, ADR-002 trade-off, weak-spot row
 - Prompt (1 line): Add __pycache__/ to .gitignore, commit, confirm no pycache was committed; add ADR-002 trade-off (TRANSFER/CASH_OUT only) and a weak-spots row on the unrepresentative test window.
 - Created: none
