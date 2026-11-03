@@ -1,0 +1,14 @@
+# ML artifacts - never commit data or trained models
+ml/data/
+ml/models/
+
+# Python virtual environments
+.venv/
+
+# Node dependencies
+node_modules/
+
+# Secrets - never commit. Use environment variables or placeholders.
+.env
+.env.*
+!.env.example
