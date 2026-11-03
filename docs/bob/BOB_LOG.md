@@ -26,6 +26,17 @@ Rolling log of every change Bob makes. Newest entry at the TOP.
 
 ---
 
+## B-007 | 2026-11-03 | Read-only tag check
+- Prompt (1 line): Owner notes (step_hour skepticism, tasks 6 and 7 are the owner's) and asks to confirm tags have not moved.
+- Created: none
+- Modified: docs/bob/BOB_LOG.md (this entry only)
+- Deleted: none
+- Dependencies added: none
+- Decisions/assumptions: Only ran read-only git commands. Did NOT start tasks 6 and 7 (owner's work). Did NOT add the step_hour line to weak-spots.md: you said to add it "when you next touch the notes", which I read as yours to do, not a request to me now. Committed and pushed this log entry to origin main.
+- Not done / follow-ups: step_hour weak-spots line still to be added. Tasks 6 and 7 and tag v0.3-ml-service are open (owner). My first `git rev-parse v0.2-model-v1^{commit}` was mangled by PowerShell and returned the wrong commit (8872be5); ignore it, the rerun with `git rev-list -n 1` is the reliable result.
+- How to verify: `git rev-list -n 1 v0.2-model-v1` -> 55c505b8941cdb979fa5bc24fc1aa4ecb26f087e; `git rev-list -n 1 v0.1-skeleton` -> 8872be584ef97611dfb86e24f202ca3bc90a2678; `git ls-remote --tags origin` shows the same two commits under the ^{} lines.
+
+
 ## B-006 | 2026-11-03 | Verify test-window explanation, correct wording, add caveat to ADR
 - Prompt (1 line): Check whether txns drop after step 600 with flat fraud, fix the weak-spots wording to match, add the window caveat to the ADR body, do not move the tag.
 - Created: none
