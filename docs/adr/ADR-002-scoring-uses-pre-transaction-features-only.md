@@ -14,4 +14,5 @@ Model v1 may only use features that are known before the transaction completes: 
 - Gain: the model can actually be called before a payment is approved, which is the whole point of fraud detection.
 - Cost: lower scores than the leaky baseline, and fewer signals to work with.
 - Cost: `drains_account` and `amount_ratio` lean on a pattern in synthetic data (fraud empties the sender's account), so real-world performance is unproven.
+- Cost: v1 only scores TRANSFER and CASH_OUT. Other transaction types are meant to go to a rules engine, which has not been built yet, so that traffic is currently unscored.
 - Cost: every new feature needs a "was this known at decision time?" check, which is a review step we must keep doing.

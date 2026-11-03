@@ -26,6 +26,17 @@ Rolling log of every change Bob makes. Newest entry at the TOP.
 
 ---
 
+## B-005 | 2026-11-03 | Ignore __pycache__, ADR-002 trade-off, weak-spot row
+- Prompt (1 line): Add __pycache__/ to .gitignore, commit, confirm no pycache was committed; add ADR-002 trade-off (TRANSFER/CASH_OUT only) and a weak-spots row on the unrepresentative test window.
+- Created: none
+- Modified: .gitignore (added __pycache__/); docs/adr/ADR-002-scoring-uses-pre-transaction-features-only.md (1 trade-off line); docs/weak-spots.md (1 row, test-window caveat); docs/bob/BOB_LOG.md (this entry)
+- Deleted: none
+- Dependencies added: none
+- Decisions/assumptions: .gitignore edited via PowerShell append (file tool blocks it, as in B-002). Wording of the new ADR line and weak-spots row is mine, based on your text; "Owner's explanation" in the row marks the reason as yours, not verified by me. Did not add the test-window caveat to the ADR body or metrics (not asked). Committed locally and pushed to origin main; no new tag.
+- Not done / follow-ups: Did not verify the "traffic tapers late" explanation against the data. ADR does not mention the window caveat; the weak-spots row does.
+- How to verify: `git ls-files | findstr pycache` (no output = none committed; I ran it before and after: empty), `git check-ignore -v ml/__pycache__/x.pyc`, `git show --stat HEAD`, `git status --short` (should be clean).
+
+
 ## B-004 | 2026-11-03 | ADR-002, challenges and weak-spots entries, tag v0.2-model-v1
 - Prompt (1 line): Add entries to challenges.md and weak-spots.md, write ADR-002 (pre-transaction features only), commit, tag v0.2-model-v1, and show metrics_v1.json plus ADR-002 text.
 - Created: docs/adr/ADR-002-scoring-uses-pre-transaction-features-only.md
