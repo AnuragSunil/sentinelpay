@@ -26,6 +26,39 @@ Rolling log of every change Bob makes. Newest entry at the TOP.
 
 ---
 
+## B-004 | 2026-11-03 | ADR-002, challenges and weak-spots entries, tag v0.2-model-v1
+- Prompt (1 line): Add entries to challenges.md and weak-spots.md, write ADR-002 (pre-transaction features only), commit, tag v0.2-model-v1, and show metrics_v1.json plus ADR-002 text.
+- Created: docs/adr/ADR-002-scoring-uses-pre-transaction-features-only.md
+- Modified: docs/challenges.md (leakage challenge entry), docs/weak-spots.md (5 rows), docs/bob/BOB_LOG.md (B-003 and B-004 entries)
+- Deleted: none
+- Dependencies added: none
+- Decisions/assumptions: Re-ran ml/diagnose_leakage.py (read-only, wrote nothing) to get real numbers for the challenge entry. Committed the 3 owner-written scripts (ml/train_baseline.py, ml/train_v1.py, ml/diagnose_leakage.py) because the docs refer to them; this was not explicitly asked. Did NOT commit ml/__pycache__/ (not in .gitignore, I did not change .gitignore) or ml/models/ (ignored). Did not edit any script.
+- Not done / follow-ups: Add __pycache__/ to .gitignore (owner decision). The ADR and notes are Bob's drafts: review and edit in your own voice. metrics_v1.json is git-ignored, so it is not in the repo. Pip dependency list still not in Tech decisions. Pushed main and tag v0.2-model-v1 to origin (you said "committed"; pushing matches B-002 practice).
+- How to verify: `git show --stat HEAD`, `git tag -n`, `git ls-remote --tags origin`, `Get-Content ml\models\metrics_v1.json`, `git status --short` (only ml/__pycache__/ should remain untracked).
+
+
+## B-003 | 2026-11-03 | Install packages for train_baseline.py in ml/.venv
+- Prompt (1 line): Install the packages needed in the venv inside ml to run train_baseline.py.
+- Created: none in git (only installed files inside ml/.venv, which is git-ignored)
+- Modified: none (this log entry aside)
+- Deleted: none
+- Dependencies added: pandas 3.1.0, xgboost 3.4.1, scikit-learn 1.9.1 (the script's 3 direct imports); pulled in numpy 2.5.4, scipy 1.18.1, joblib 1.6.0, threadpoolctl 3.7.0, cloudpickle 3.1.2, narwhals 2.28.0, python-dateutil 4.0.0, tzdata 2026.6. NOT listed in "Tech decisions" yet (rule E): needed because train_baseline.py imports them.
+- Decisions/assumptions: used pip with --only-binary=:all: (no source builds) and latest stable versions on Python 3.14.8; did not create requirements.txt/lock file (not asked); did not run the training script.
+- Not done / follow-ups: Owner should add the 3 packages to "Tech decisions" and decide on a pinned requirements file (security rules want a lock file). Script docstring example uses data/PS_20174392719_1491204439457_log.csv but the file present is ml/data/paysim.csv, so pass `--data data/paysim.csv`. Dependency vulnerability scan not run. ml/train_baseline.py is still untracked (not mine; not committed).
+- How to verify: in ml/: `.\.venv\Scripts\python.exe -m pip list`, `.\.venv\Scripts\python.exe -c "import pandas, xgboost, sklearn"` (passed, "imports ok"), `pip check` (passed). To train: `.\.venv\Scripts\python.exe train_baseline.py --data data/paysim.csv`.
+
+
+## B-002 | 2026-11-03 | Repo skeleton, ADR-001, push and tag v0.1-skeleton
+- Prompt (1 line): Create monorepo skeleton, .gitignore, docs templates, write ADR-001, push to GitHub and tag v0.1-skeleton.
+- Created: .gitignore; services/.gitkeep, ml/.gitkeep, web/.gitkeep, infra/.gitkeep; docs/adr/ADR-001-java-services-plus-python-ml-with-kafka.md; docs/manual-changes.md; docs/challenges.md; docs/weak-spots.md
+- Modified: none (this log entry aside)
+- Deleted: none
+- Dependencies added: none
+- Decisions/assumptions: git init -b main; remote = existing empty repo https://github.com/AnuragSunil/sentinelpay.git; repo-local git identity set to AnuragSunil + GitHub noreply email (not global); annotated tag v0.1-skeleton; .gitignore also covers .env.* (keeps !.env.example); .gitkeep files keep empty folders; docs/bob/ files from B-001 were included in the first commit; ADR filename chosen by me; no README (not requested). The file tool refused to write .gitignore, so it was created via PowerShell.
+- Not done / follow-ups: This B-002 log entry is NOT in the tagged commit (written after it); commit it separately. Did not create the GitHub repo (it already existed). infra/ is only a placeholder; no CloudFormation yet. Tech decisions in PROJECT_CONTEXT.md still empty; ADR-001 content is Bob's draft, review and edit it.
+- How to verify: `git log --oneline --decorate`, `git ls-files`, `git ls-remote --tags origin`, `git check-ignore -v ml/data/x ml/models/x .venv/x node_modules/x .env`, and open the repo on GitHub.
+
+
 ## B-001 | 2026-11-03 | Create Bob docs scaffolding
 - Prompt (1 line): Create docs/bob/PROJECT_CONTEXT.md, docs/bob/BOB_LOG.md, and docs/bob/archive/ with .gitkeep, and nothing else.
 - Created: docs/bob/PROJECT_CONTEXT.md, docs/bob/BOB_LOG.md, docs/bob/archive/.gitkeep
